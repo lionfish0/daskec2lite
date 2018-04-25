@@ -2,9 +2,11 @@
 Makes a bunch of EC2 spot priced instances and starts dask running on them.
 
 ### Install
-pip install boto3
-pip install paramiko
-pip install git+https://github.com/lionfish0/daskec2lite.git
+Sorry, I forgot to include boto3 and paramiko in setup.py, so you've got to install them yourself;
+
+    pip install boto3
+    pip install paramiko
+    pip install git+https://github.com/lionfish0/daskec2lite.git
 
 ### Usage
     daskec2lite --help
