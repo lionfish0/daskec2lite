@@ -14,7 +14,17 @@ def pingserver(hostname):
     return os.system("ping -W 3 -c 1 " + hostname)==0
 
 
-def start_cluster(num_instances=2, instance_type='c4.xlarge',imageid="ami-19a58760",keyname='research',spotprice='1.00',region_name='eu-west-1',sgid="sg-9146afe9"):
+def start_cluster(num_instances=2, instance_type='c4.xlarge',imageid=None,keyname=None,spotprice='1.00',region_name=None,sgid=None):
+    """
+    Start a cluster
+    
+    """
+    assert sgid is not None
+    assert imageid is not None
+    assert keyname is not None
+    assert region_name is not None
+    
+    
     client = boto3.client('ec2', region_name=region_name)
     response = client.request_spot_instances(
         DryRun=False,
@@ -177,7 +187,7 @@ def main():
         return
 
     addresses,instance_ids = start_cluster(num_instances=args.num_instances,instance_type=args.instance_type,
-                imageid=args.imageid,keyname=args.keyname,spotprice=args.spotprice,region_name=args.region_name)  
+                imageid=args.imageid,keyname=args.keyname,spotprice=args.spotprice,region_name=args.region_name,sgid=args.sgid)  
     time.sleep(5) #give it a bit more time!
     start_dask_cluster(addresses,pathtokeyfile=args.pathtokeyfile,username = args.username,workers_per_instance = args.workers_per_instance)
 
